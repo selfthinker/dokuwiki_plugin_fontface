@@ -1,0 +1,7 @@
+base     fontface
+author   Anika Henke
+email    anika@selfthinker.org
+date     2011-05-22
+name     FontFace Plugin
+desc     Embed a special font for headlines (with either @font-face, Google Font API, Kernest, Cufón, typeface.js or sIFR)
+url      http://www.dokuwiki.org/plugin:fontface
