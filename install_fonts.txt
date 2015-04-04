@@ -22,38 +22,3 @@ You don't need to upload any files. You can use any of the fonts listed here:
 http://www.google.com/webfonts
 
 You can add variants into the "fontFile" option, e.g. 'Expletus+Sans:regular,bold'.
-
-==== Kernest ====
-
-You don't need to upload any files. You can use any of the fonts listed here:
-http://kernest.com/
-
-==== Cufón ====
-
-The file you need to upload:
-
-  * <fontFile>.font.js
-
-You can generate that file here:
-http://cufon.shoqolate.com/generate/
-
-==== typeface.js ====
-
-The file you need to upload:
-
-  * <fontFile>.typeface.js
-
-You can convert fonts here:
-http://typeface.neocracy.org/fonts.html
-
-Be aware of choosing the correct variant of the font.
-If your headings are bold and you choose the regular variant, this technique won't work.
-
-==== sIFR ====
-
-The file you need to upload:
-
-  * <fontFile>.swf
-
-You can create that file here:
-http://www.sifrgenerator.com/

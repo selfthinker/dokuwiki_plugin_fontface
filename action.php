@@ -22,9 +22,6 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
     // register hook
     function register(&$controller) {
         $controller->register_hook('TPL_METAHEADER_OUTPUT','BEFORE', $this, '_addFontCode');
-        if ( ($this->getConf('technique')=='cufon') || ($this->getConf('technique')=='typeface')){
-            $controller->register_hook('TPL_CONTENT_DISPLAY','AFTER', $this, '_lateFontInit'); // or rather TPL_ACT_RENDER?
-        }
     }
 
     /**
@@ -46,8 +43,6 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
         $fontName     = $this->getConf('fontName');
         $headings     = $this->getConf('headings');
 
-        $JSfiles  = array();
-        $JSembed  = '';
         $CSSfiles = array();
         $CSSembed = '';
 
@@ -92,95 +87,14 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
                 }
 
                 $CSSfiles = array(
-                                'http://fonts.googleapis.com/css?family='.str_replace(' ', '+', $fontFileName)
-                            );
-                break;
-
-            case 'kernest':
-                // check if required option is set
-                if (empty($fontFileName)) {
-                    msg("The '<strong>fontFileName</strong>' config setting is <strong>not set</strong>.", -1);
-                    return false;
-                }
-
-                $CSSfiles = array(
-                                'http://kernest.com/fonts/'.$fontFileName.'.css'
-                            );
-                break;
-
-            case 'cufon':
-                $fontFile = $fontFileName.'.font.js';
-
-                // check if required options are set and file exists
-                if (!$this->_isFileOk($fontSysDir.$fontFile, $fontDir.$fontFile, 'fontFile')) {
-                    return false;
-                }
-                if (empty($headings)){
-                    msg("No headings chosen to be replaced.", -1);
-                    return false;
-                }
-
-                $JSfiles     = array(
-                                   $libDir.'cufon/cufon-yui.js',
-                                   $fontDir.$fontFile
-                               );
-                $headingsCode = '';
-                foreach(explode(',',$headings) as $heading){
-                    $headingsCode .= "('".$heading."')";
-                }
-                $JSembed     = "Cufon.replace".$headingsCode.";";
-                break;
-
-            case 'typeface':
-                $fontFile = $fontFileName.'.typeface.js';
-
-                // check if file exists
-                if (!$this->_isFileOk($fontSysDir.$fontFile, $fontDir.$fontFile, 'fontFile')) {
-                    return false;
-                }
-
-                $JSfiles  = array(
-                                $libDir.'typeface/typeface-0.15.js',
-                                $fontDir.$fontFile
-                            );
-                break;
-
-            case 'sifr':
-                $fontFile = $fontFileName.'.swf';
-
-                // check if required options are set and file exists
-                if (!$this->_isFileOk($fontSysDir.$fontFile, $fontDir.$fontFile, 'fontFile')) {
-                    return false;
-                }
-                if (empty($headings)){
-                    msg("No headings chosen to be replaced.", -1);
-                    return false;
-                }
-
-                $JSfiles  = array(
-                                $libDir.'sifr/sifr.js'
-                            );
-                $JSembed  = "var ".$fontFileName." = { src: '".$fontDir.$fontFile."' };".NL.
-                            "sIFR.activate(".$fontFileName.");".NL.
-                            "sIFR.replace(".$fontFileName.", { selector: '".$headings."' });";
-                $CSSfiles = array(
-                                $libDir.'sifr/sifr.css'
-                            );
-                $headingsCode = array();
-                foreach(explode(',',$headings) as $key => $heading){
-                    $headingsCode[$key] .= ".sIFR-active ".$heading;
-                }
-                $headingsCode = explode(',',$headingsCode);
-                $CSSembed = $headingsCode." { visibility: hidden; }";
+                    'http://fonts.googleapis.com/css?family='.str_replace(' ', '+', $fontFileName)
+                );
                 break;
         }
 
-        // add styles (done automatically through JS for cufon and sifr)
-        // if not set (for techniques other than cufon and sifr), set them through CSS as usual
-        if ( $this->getConf('addStyles') &&
-             !empty($headings) &&
-             ($technique!='cufon') &&
-             ($technique!='sifr') ) {
+        // add styles
+        // if not set, set them through CSS as usual
+        if ( $this->getConf('addStyles') && !empty($headings) ) {
             $CSSembed .= $headings." { font-family: '".$fontName."', ".$this->getConf('genericFamily')."; }";
         }
 
@@ -203,49 +117,7 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
                 '_data'   => $CSSembed
             );
         }
-        // include all relevant JS files
-        if (!empty($JSfiles)){
-            foreach($JSfiles as $JSfile) {
-                $event->data['script'][] = array(
-                    'type'    => 'text/javascript',
-                    'charset' => 'utf-8',
-                    '_data'   => '',
-                    'src'     => $JSfile
-                );
-            }
-        }
-        // embed all relevant JS code
-        if (!empty($JSembed)){
-            $event->data['script'][] = array(
-                'type'    => 'text/javascript',
-                'charset' => 'utf-8',
-                '_data'   => $JSembed
-            );
-        }
 
-    }
-
-    /**
-     * Loads initialisation of cufon and typeface to avoid Flash Of Unstyled Content in IE6-8
-     *
-     * @param unknown_type $event
-     * @param unknown_type $param
-     */
-    function _lateFontInit(&$event, $param) {
-        switch ($this->getConf('technique')) {
-            case 'cufon':
-                $JSembed = 'Cufon.now();';
-                break;
-            /* causes problems in IE6 and IE7, page doesn't display at all ("Operation aborted")
-               because TPL_CONTENT_DISPLAY is too early (should be added just before </body>)
-            case 'typeface':
-                $JSembed = '_typeface_js.initialize();';
-                break;
-            */
-            default:
-                return false;
-        }
-        echo NL.'<script type="text/javascript">'.$JSembed.'</script>'.NL;
     }
 
     /**
