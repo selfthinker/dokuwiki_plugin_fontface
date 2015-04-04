@@ -11,5 +11,4 @@ $lang['technique_o_google']    = 'API Google Font';
 $lang['fontFile']              = 'Nom de fichier de police (sans extension ; <strong>doit être uploadé en premier</strong>, voir les instructions)';
 $lang['fontName']              = 'Nom de police (tel qu\'utilisé dans la CSS)';
 $lang['headings']              = 'Quels entêtes doivent être modifiés ? (si des styles doivent être ajoutés automatiquement)';
-$lang['addStyles']             = 'Ajouter des styles automatiquement ? (les styles peuvent être utilisés comme d\'habitude dans vos fichiers CSS)';
 $lang['genericFamily']         = 'Famille de polices par défaut';

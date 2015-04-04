@@ -11,5 +11,4 @@ $lang['technique_o_google']    = 'Google Font API';
 $lang['fontFile']              = 'Font Dateiname (ohne Erweiterung; <strong>muss zuerst hochgeladen werden</strong>, siehe Anleitung)';
 $lang['fontName']              = 'Font Name (wie im CSS Stylesheet verwendet)';
 $lang['headings']              = 'Welche Überschriften sollen beeinflusst werden? (wenn Style automatisch hinzugefügt werden soll)';
-$lang['addStyles']             = 'Styles automatisch hinzufügen? (Styles können sonst wie üblich in den CSS-Dateien verwendet werden)';
 $lang['genericFamily']         = 'Allgemeine Font-Familie';

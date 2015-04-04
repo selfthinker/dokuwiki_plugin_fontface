@@ -15,5 +15,4 @@ $lang['technique_o_sifr']      = 'sIFR';
 $lang['fontFile']              = 'Font bestandsnaam (zonder extensie; <strong>Moet eerst worden geupload </stong>, zie instructies)';
 $lang['fontName']              = 'Font naam ( zoals gebruikt in CSS)';
 $lang['headings']              = 'Welke kopteksten moeten worden aangepast? (nodig voor indien de stijl automatisch moet worden toegevoegd)';
-$lang['addStyles']             = 'Stijlen automatisch toevoegen? (Stijlen kunnen worden gebruikt als gewoonlijk in je CSS bestanden)';
 $lang['genericFamily']         = 'Generieke font familie';

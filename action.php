@@ -92,9 +92,8 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
                 break;
         }
 
-        // add styles
-        // if not set, set them through CSS as usual
-        if ( $this->getConf('addStyles') && !empty($headings) ) {
+        // add styles automatically if headings are set, otherwise set them through CSS as usual
+        if ( !empty($headings) ) {
             $CSSembed .= $headings." { font-family: '".$fontName."', ".$this->getConf('genericFamily')."; }";
         }
 
