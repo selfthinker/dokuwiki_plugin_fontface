@@ -41,6 +41,7 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
         $fontSysDir   = $pluginSysDir.'fonts/';
         $fontDir      = $pluginDir.'fonts/';
 
+        $technique    = $this->getConf('technique');
         $fontFileName = $this->getConf('fontFile');
         $fontName     = $this->getConf('fontName');
         $headings     = $this->getConf('headings');
@@ -50,8 +51,13 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
         $CSSfiles = array();
         $CSSembed = '';
 
+        // don't apply anything if no technique is chosen
+        if (empty($technique)) {
+            return false;
+        }
+
         // prepare CSS and JS to embed depending on the technique
-        switch ($this->getConf('technique')) {
+        switch ($technique) {
             case 'fontface':
                 $fontEOT  = $fontFileName.'.eot';
                 $fontWOFF = $fontFileName.'.woff';
@@ -173,8 +179,8 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
         // if not set (for techniques other than cufon and sifr), set them through CSS as usual
         if ( $this->getConf('addStyles') &&
              !empty($headings) &&
-             ($this->getConf('technique')!='cufon') &&
-             ($this->getConf('technique')!='sifr') ) {
+             ($technique!='cufon') &&
+             ($technique!='sifr') ) {
             $CSSembed .= $headings." { font-family: '".$fontName."', ".$this->getConf('genericFamily')."; }";
         }
 
