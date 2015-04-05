@@ -14,5 +14,5 @@ $lang['technique_o_typeface']  = 'Typeface.js';
 $lang['technique_o_sifr']      = 'sIFR';
 $lang['fontFile']              = 'Font bestandsnaam (zonder extensie; <strong>Moet eerst worden geupload </stong>, zie instructies)';
 $lang['fontName']              = 'Font naam ( zoals gebruikt in CSS)';
-$lang['headings']              = 'Welke kopteksten moeten worden aangepast? (nodig voor indien de stijl automatisch moet worden toegevoegd)';
+$lang['elements']              = 'Welke kopteksten moeten worden aangepast? (nodig voor indien de stijl automatisch moet worden toegevoegd)';
 $lang['genericFamily']         = 'Generieke font familie';

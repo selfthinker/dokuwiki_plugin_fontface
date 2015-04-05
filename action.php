@@ -41,7 +41,9 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
         $technique    = $this->getConf('technique');
         $fontFileName = $this->getConf('fontFile');
         $fontName     = $this->getConf('fontName');
+        // config option 'elements' used to be called 'headings', fallback to old option for backwards-compatibility
         $headings     = $this->getConf('headings');
+        $elements     = !empty($headings) ? $headings : $this->getConf('elements');
 
         $CSSfiles = array();
         $CSSembed = '';
@@ -82,7 +84,7 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
             case 'google':
                 // check if required option is set
                 if (empty($fontFileName)) {
-                    msg("The '<strong>fontFileName</strong>' config setting is <strong>not set</strong>.", -1);
+                    msg("The '<strong>fontFile</strong>' config setting is <strong>not set</strong>.", -1);
                     return false;
                 }
 
@@ -93,8 +95,8 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
         }
 
         // add styles automatically if headings are set, otherwise set them through CSS as usual
-        if ( !empty($headings) ) {
-            $CSSembed .= $headings." { font-family: '".$fontName."', ".$this->getConf('genericFamily')."; }";
+        if ( !empty($elements) ) {
+            $CSSembed .= $elements." { font-family: '".$fontName."', ".$this->getConf('genericFamily')."; }";
         }
 
         // include all relevant CSS files
