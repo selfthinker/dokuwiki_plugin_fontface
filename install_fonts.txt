@@ -4,19 +4,23 @@
 The used font needs to be uploaded into the plugin's "fonts" directory.
 The font files that need to be uploaded depend on the embedding technique you use.
 
-==== @font-face ====
+==== Uploaded font (@font-face) ====
 
-You need four files to accomodate for all different browsers:
+You need at least two files to accomodate for all different browsers:
+
+  * <fontFile>.ttf
+  * <fontFile>.woff
+
+Optionally you can also add:
 
   * <fontFile>.eot
-  * <fontFile>.woff
-  * <fontFile>.ttf
   * <fontFile>.svg
+  * <fontFile>.woff2
 
-Here you will find ready-made font packages which will already contain all four of them:
+Here you will find ready-made font packages which will already contain all or most of them:
 http://www.fontsquirrel.com/fontface
 
-==== Google Font API ====
+==== Google Font ====
 
 You don't need to upload any files. You can use any of the fonts listed here:
 http://www.google.com/webfonts

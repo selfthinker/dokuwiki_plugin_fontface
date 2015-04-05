@@ -56,29 +56,40 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
         // prepare CSS and JS to embed depending on the technique
         switch ($technique) {
             case 'fontface':
-                $fontEOT  = $fontFileName.'.eot';
-                $fontWOFF = $fontFileName.'.woff';
-                $fontTTF  = $fontFileName.'.ttf';
-                $fontSVG  = $fontFileName.'.svg';
+                $fontEOT   = $fontFileName.'.eot';
+                $fontWOFF  = $fontFileName.'.woff';
+                $fontWOFF2 = $fontFileName.'.woff2';
+                $fontTTF   = $fontFileName.'.ttf';
+                $fontSVG   = $fontFileName.'.svg';
 
-                // check if files exist
-                if (!$this->_isFileOk($fontSysDir.$fontEOT,  $fontDir.$fontEOT,  'fontFile') ||
-                    !$this->_isFileOk($fontSysDir.$fontWOFF, $fontDir.$fontWOFF, 'fontFile') ||
-                    !$this->_isFileOk($fontSysDir.$fontTTF,  $fontDir.$fontTTF,  'fontFile') ||
-                    !$this->_isFileOk($fontSysDir.$fontSVG,  $fontDir.$fontSVG,  'fontFile')) {
+                // check if at least ttf and woff files exist
+                if (!$this->_isFileOk($fontSysDir.$fontWOFF, $fontDir.$fontWOFF, 'fontFile') ||
+                    !$this->_isFileOk($fontSysDir.$fontTTF,  $fontDir.$fontTTF,  'fontFile')) {
                     return false;
                 }
 
-                $CSSembed = "@font-face {".NL.
-                            "  font-family: '".$fontName."';".NL.
-                            "  src: url('".$fontDir.$fontEOT."');".NL.
-                            "  src: url('".$fontDir.$fontEOT."?#iefix') format('embedded-opentype'),".NL.
-                            "       url('".$fontDir.$fontWOFF."') format('woff'),".NL.
-                            "       url('".$fontDir.$fontTTF."')  format('truetype'),".NL.
-                            "       url('".$fontDir.$fontSVG."#".str_replace(' ', '', $fontName)."') format('svg');".NL.
-                            "  font-weight: normal;".NL.
-                            "  font-style: normal;".NL.
-                            "}";
+                $CSSembed       = "@font-face {".NL.
+                                  "  font-family: '".$fontName."';".NL;
+                if (file_exists($fontSysDir.$fontEOT)) {
+                    $CSSembed   .= "  src: url('".$fontDir.$fontEOT."');".NL;
+                }
+                $CSSembed       .= "  src: ";
+                if (file_exists($fontSysDir.$fontEOT)) {
+                    $CSSembed   .= "       url('".$fontDir.$fontEOT."?#iefix') format('embedded-opentype'),".NL;
+                }
+                if (file_exists($fontSysDir.$fontWOFF2)) {
+                    $CSSembed   .= "       url('".$fontDir.$fontWOFF2."') format('woff2'),".NL;
+                }
+                $CSSembed       .= "       url('".$fontDir.$fontWOFF."') format('woff'),".NL;
+                $CSSembed       .= "       url('".$fontDir.$fontTTF."') format('truetype')";
+                if (file_exists($fontSysDir.$fontSVG)) {
+                    $CSSembed   .= ",".NL;
+                    $CSSembed   .= "       url('".$fontDir.$fontSVG."#".str_replace(' ', '', $fontName)."') format('svg')";
+                }
+                $CSSembed       .= ";".NL.
+                                   "  font-weight: normal;".NL.
+                                   "  font-style: normal;".NL.
+                                   "}";
                 break;
 
             case 'google':
