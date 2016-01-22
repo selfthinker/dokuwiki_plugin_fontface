@@ -25,7 +25,7 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
     }
 
     // register hook
-    function register(&$controller) {
+    function register(Doku_Event_Handler $controller) {
         $controller->register_hook('TPL_METAHEADER_OUTPUT','BEFORE', $this, '_addFontCode');
     }
 
