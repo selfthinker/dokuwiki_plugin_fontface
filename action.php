@@ -185,7 +185,7 @@ class action_plugin_fontface extends DokuWiki_Action_Plugin {
         if (empty($fontFileName)) {
             return false;
         }
-        return 'http://fonts.googleapis.com/css?family='.str_replace(' ', '+', $fontFileName);
+        return 'https://fonts.googleapis.com/css?family='.str_replace(' ', '+', $fontFileName);
     }
 
 }
